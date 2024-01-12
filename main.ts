@@ -4,8 +4,8 @@ import { Command  } from 'obsidian';
 export default class LinkMeUpPlugin extends Plugin {
 	onload(): void {
 		this.addCommand({
-			id: "lmu-list-files",
-			name: "LinkMeUp: list files in vault",
+			id: "lmu-list-today",
+			name: "List files created or modified today",
 			callback: () => {
 				// console.log("LinkMeUp: listing files...");
 				// console.log("| pathToFile | ctime | mtime |");
@@ -25,6 +25,8 @@ export default class LinkMeUpPlugin extends Plugin {
 					}
 				}
 			
+				var activeFile = this.app.workspace.getActiveFile();
+
 				// console.log("Files create today: ");
 				let payload = "# LinkMeUp" + '\n';
 				let linksToCreatedFiles = "## Files created today:" + '\n'; 
@@ -42,7 +44,7 @@ export default class LinkMeUpPlugin extends Plugin {
 				payload += linksToCreatedFiles;
 				payload += linksToModifiedFiles;
 
-				var activeFile = this.app.workspace.getActiveFile();
+				
 				if (activeFile !== null) this.app.vault.append(activeFile, payload)
 				else console.log("Failed to find last active file. Try opening some file (like today's note)")
 
